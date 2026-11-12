@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALAYA - La razón de florecer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <!-- Encabezado Principal -->
+    <header>
+        <div class="logo-container">
+            <div>
+                <h1>ALAYA</h1>
+                <span class="slogan">La razón de florecer</span>[cite: 2, 6]
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="envios.html">Envíos</a></li>
+                <li><button class="cart-btn" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</button></li>
+                <script src="script.js"></script>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección de Bienvenida (Hero) -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h2>Bienvenidos a ALAYA</h2>
+            <p>La esencia de la naturalidad, la frescura y la delicadeza en cada arreglo floral[cite: 5]. Descubre la razón de florecer[cite: 6].</p>
+            <a href="catalogo.html"><button class="btn-principal">Explorar Catálogo</button></a>
+        </div>
+    </section>
+
+    <!-- Sección de Productos Destacados en Inicio -->
+    <div class="container" id="catalogo">
+        <h2 class="section-title">Nuestros Destacados</h2>
+        <div class="catalog-grid">
+            <div class="flower-card">
+                <div class="flower-img">🌼</div>
+                <div class="flower-info">
+                    <h3>Atardecer de Margaritas</h3>
+                    <p>Hermoso ramo fresco con margaritas vibrantes y detalles campestres.</p>
+                    <div class="price">$25.00</div>
+                    <button class="btn-add" onclick="addToCart('Atardecer de Margaritas', 25.00)">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito Desplegable Lateral -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3>Tu Carrito ALAYA</h3>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItemsList">
+            <p style="text-align: center; color: #777; margin-top: 20px;">Tu carrito está vacío.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-price">Total: $<span id="cartTotal">0.00</span></div>
+            <button class="btn-principal" style="width: 100%;" onclick="checkout()">Realizar Pedido</button>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 ALAYA - La razón de florecer[cite: 2, 6]. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script Funcional del Carrito -->
+    <script>
+        let cart = [];
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('open');
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+            alert(`¡"${name}" se ha añadido a tu carrito con éxito! 🌸`);
+        }
+
+        function updateCartUI() {
+            const cartList = document.getElementById('cartItemsList');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+
+            cartCount.textContent = cart.length;
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px;">Tu carrito está vacío.</p>';
+                cartTotal.textContent = '0.00';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>$${item.price.toFixed(2)}</small>
+                        </div>
+                        <button onclick="removeItem(${index})" style="background:none; border:none; color: red; cursor:pointer;">Eliminar</button>
+                    </div>
+                `;
+            });
+
+            cartList.innerHTML = html;
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Tu carrito está vacío, agrega flores antes de realizar un pedido.");
+                return;
+            }
+            alert("¡Gracias por tu pedido en ALAYA! Tu orden ha sido procesada con éxito. 🌸");
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+    </script>
+</body>
+</html>
+<script src="script.js"></script>
+</body>
+</html>
